@@ -1,5 +1,11 @@
 {
   "appId": "com.khamar.managing",
-  "appName": "খামার ম্যানেজিং",
-  "webDir": "www"
+  "appName": "আমার খামার",
+  "webDir": "www",
+  "plugins": {
+    "FirebaseAuthentication": {
+      "skipNativeAuth": true,
+      "providers": ["google.com"]
+    }
+  }
 }

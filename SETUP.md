@@ -24,3 +24,12 @@ Hidden by default. An administrator enables it by writing a Firestore document a
 
 ## Medical disclaimer
 Vaccine schedules and disease information are general educational guidance; confirm with a qualified veterinarian.
+
+---
+## v2 — আমার খামার: Android APK + Google login (Codemagic)
+1. Firebase Console → Authentication → enable **Google**. Project settings → add an **Android app** with package `com.khamar.managing` and this SHA-1 (fixed key in `signing/khamar-debug.keystore`):
+   `8E:15:FC:6D:52:8D:21:9E:1C:5D:23:B3:49:45:02:B0:48:B8:68:6D`
+2. Also add a **Web app**, copy its config into `config.js` (`FIREBASE_CONFIG`).
+3. Download `google-services.json` (after adding the SHA-1), run `base64 -w0 google-services.json`, and put the result into Codemagic → Environment variables → `GOOGLE_SERVICES_JSON`.
+4. Build with `codemagic.yaml`. Without these steps the app still works (guest mode), only Google sign-in is disabled.
+- Sponsors / company ads: edit `window.SPONSORS` in `config.js`. Developer credit: `window.DEV`.

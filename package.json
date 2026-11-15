@@ -1,15 +1,19 @@
 {
-  "name": "khamar-managing",
-  "version": "1.0.0",
+  "name": "amar-khamar",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
-    "build": "rm -rf www && mkdir www && cp -r index.html style.css config.js sw.js manifest.webmanifest js icons www/"
+    "build": "rm -rf www && mkdir www && cp -r index.html style.css v4.css config.js sw.js manifest.webmanifest js icons www/"
   },
   "dependencies": {
+    "@capacitor-firebase/authentication": "^6.1.0",
     "@capacitor/android": "^6.1.2",
-    "@capacitor/core": "^6.1.2"
+    "@capacitor/app": "^6.0.1",
+    "@capacitor/core": "^6.1.2",
+    "firebase": "^10.12.2"
   },
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^6.1.2"
   }
 }

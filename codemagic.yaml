@@ -1,11 +1,12 @@
 workflows:
   android-debug:
-    name: Khamar Android APK
+    name: Amar Khamar Android APK
     instance_type: mac_mini_m2
     max_build_duration: 30
     environment:
       node: 20
       java: 17
+      # Codemagic -> Environment variables: GOOGLE_SERVICES_JSON = base64 of google-services.json (needed for Google sign-in)
     scripts:
       - name: Install dependencies
         script: npm install
@@ -13,6 +14,12 @@ workflows:
         script: npm run build
       - name: Add Android platform
         script: npx cap add android
+      - name: App icon
+        script: npx capacitor-assets generate --android
+      - name: Google services + fixed signing key
+        script: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json; fi
+          mkdir -p ~/.android && cp signing/khamar-debug.keystore ~/.android/debug.keystore
       - name: Sync web assets
         script: npx cap sync android
       - name: Build debug APK

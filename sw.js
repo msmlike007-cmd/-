@@ -1,4 +1,4 @@
-const V='khamar-v1',SHELL=['./','index.html','style.css','config.js','js/i18n.js','manifest.webmanifest','js/data.js','js/core.js','js/charts.js','js/views1.js','js/views2.js','js/views3.js','js/app.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+const V='khamar-v2',SHELL=['./','index.html','style.css','config.js','js/i18n.js','manifest.webmanifest','js/data.js','js/core.js','js/charts.js','js/views1.js','js/views2.js','js/views3.js','js/app.js','js/v4.js','v4.css','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);
