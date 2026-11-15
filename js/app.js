@@ -1,5 +1,5 @@
 'use strict';
-const NAV=[['home','home','Home'],['animals','paw','Animal Management'],['routine','list','Daily Routine'],['feed','feed','Feeding'],['milk','milk','Milk Management'],['vax','vax','Vaccination Center'],['disease','dis','Disease Information'],['finance','chart','Financial Reports'],['calendar','cal','Calendar'],['files','folder','Photos & Documents'],['notes','note','Notes'],['notify','bell','Notifications'],['settings','set','Settings'],['about','info','About Application']];
+const NAV=[['home','home','Home'],['animals','paw','Animal Management'],['routine','list','Daily Routine'],['feed','feed','Feeding'],['milk','milk','Milk Management'],['vax','vax','Vaccination Center'],['disease','dis','Disease Information'],['finance','chart','Financial Reports'],['calendar','cal','Calendar'],['files','folder','Photos & Documents'],['pharma','vax','Pharma & Sponsors'],['notes','note','Notes'],['notify','bell','Notifications'],['settings','set','Settings'],['about','info','About Application']];
 const BOTTOM=[['home','home','Home'],['animals','paw','Animals'],['milk','milk','Milk'],['vax','vax','Vaccines'],['more','menu','More']];
 const LIVE=['qan','noteQ','fileQ'];
 const isDark=()=>{const th=S().theme||'auto';return th==='dark'||(th==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches)};
@@ -10,7 +10,7 @@ function render(keep){
  const y=window.scrollY;Chart.reg={};let r;
  try{r=fn(...args)}catch(e){console.error(e);r={title:'Error',html:`<div class="card"><b class="bad">⚠️ ${esc(e.message)}</b></div>`}}
  $('#view').innerHTML=r.html+'<div class="adslot" hidden data-slot="footer"></div>'+(r.fab?`<button class="fab" data-a="${r.fab}" ${r.fabData||''} aria-label="Add">${ic('plus')}</button>`:'');
- document.title=(r.title?r.title+' · ':'')+'খামার ম্যানেজিং';
+ document.title=(r.title?r.title+' · ':'')+'আমার খামার';
  App.chrome(r,name);Chart.mountAll();if(keep)scrollTo(0,y);else scrollTo(0,0);
  if(focus){const el=$(focus.sel);if(el){el.focus();try{el.setSelectionRange(focus.pos,focus.pos)}catch(_){}}}
  App.ads()}
@@ -31,7 +31,7 @@ const App={last:null,
   const cs={synced:'',ok:'',error:'color:#ffb4b4',syncing:'opacity:.6'}[Sync.status]??'opacity:.55';
   $('#top').innerHTML=`<button class="ib menu" data-a="menu" aria-label="Menu">${ic('menu')}</button>${r.back?`<button class="ib" data-a="go" data-h="${r.back}" aria-label="Back">${ic('back')}</button>`:''}<h1>${esc(r.title||'')}</h1><button class="ib" data-a="langToggle" style="font-size:14px;font-weight:700" aria-label="Language">${LANG==='bn'?'EN':'বাং'}</button><button class="ib" data-a="themeToggle" aria-label="Theme">${ic(isDark()?'sun':'moon')}</button><button class="ib" data-a="go" data-h="#/notify" aria-label="Notifications">${ic('bell')}${n?`<span class="badge">${fnum(n,0)}</span>`:''}</button><button class="ib" data-a="go" data-h="#/settings" style="${cs}" title="${t(syncTxt())}" aria-label="Sync">${ic('cloud')}</button>`;
   const cur=name==='animal'?'animals':name;
-  $('#side').innerHTML=`<div class="brand"><span class="lg">🐄</span><div>খামার ম্যানেজিং<div class="mut sm" style="font-weight:400">Khamar Managing</div></div></div>`+NAV.map(x=>`<a href="#/${x[0]}" class="${cur===x[0]?'on':''}">${ic(x[1])}<span>${t(x[2])}</span></a>`).join('');
+  $('#side').innerHTML=`<div class="brand"><img class="lg" src="icons/icon-192.png" alt=""><div>আমার খামার<div class="mut sm" style="font-weight:400">Amar Khamar</div></div></div>`+NAV.map(x=>`<a href="#/${x[0]}" class="${cur===x[0]?'on':''}">${ic(x[1])}<span>${t(x[2])}</span></a>`).join('');
   $('#bnav').innerHTML=BOTTOM.map(x=>x[0]==='more'?`<a data-a="menu">${ic(x[1])}<span>${t(x[2])}</span></a>`:`<a href="#/${x[0]}" class="${cur===x[0]?'on':''}">${ic(x[1])}<span>${t(x[2])}</span></a>`).join('')},
  async ads(){const els=$$('.adslot');if(!els.length||!Sync.ready)return;if(App._ads===undefined){App._ads=null;App._ads=await Sync.adsConfig()}const c=App._ads;if(!c||!c.enabled)return;
   $$('.adslot').forEach(el=>{const s=(c.slots&&c.slots[el.dataset.slot])||c;if(s&&/^https:\/\//.test(s.imageUrl||'')){const link=/^https:\/\//.test(s.link||'')?s.link:'#';el.innerHTML=`<a href="${esc(link)}" target="_blank" rel="noopener sponsored"><img src="${esc(s.imageUrl)}" alt="${t('Sponsored')}"></a>`;el.hidden=false}})}

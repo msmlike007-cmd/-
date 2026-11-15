@@ -93,7 +93,7 @@ V.notify=()=>{const items=Notif.items(),perm='Notification'in window?Notificatio
  <div class="card"><small class="mut">ℹ️ ${t('Notifications appear while the app is open or installed and running. Background push when the app is fully closed needs a push server (see SETUP.md).')}</small></div>`}};
 function remForm(r,date){UI.form({title:r?'Edit reminder':'Add reminder',values:r||{date:date||today(),time:'08:00',repeat:'none'},fields:[{k:'name',label:'Reminder',req:1},{k:'date',label:'Date',type:'date',req:1},{k:'time',label:'Time',type:'time'},{k:'repeat',label:'Repeat frequency',type:'select',opts:REP.map(x=>[x[0],t(x[1])])},{k:'note',label:'Notes'}],onSave:async o=>{await DB.save('reminders',Object.assign({},r||{},o))}})}
 A.addRem=d=>remForm(null,d&&d.d);A.editRem=d=>remForm(DB.get(d.id));A.delRem=d=>UI.del(d.id,DB.get(d.id).name);
-A.askNotif=()=>Notif.ask();A.testNotif=()=>Notif.show(t('Khamar Managing'),t('Test notification'),'#/notify');
+A.askNotif=()=>Notif.ask();A.testNotif=()=>Notif.show(t('Amar Khamar'),t('Test notification'),'#/notify');
 
 /* ---------- Settings ---------- */
 const syncTxt=()=>({unconfigured:'Cloud not configured',signedout:'Not signed in',idle:'Signed in',syncing:'Syncing…',ok:'Synced',error:'Sync error',offline:'Offline',off:'Off'}[Sync.status]||'');
@@ -117,7 +117,7 @@ A.exportCsv=()=>{const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"',rows=DB.lis
 A.wipe=async()=>{if(!await UI.confirm(t('Delete ALL data stored on this device? Cloud data (if signed in) is not deleted and will sync back.')))return;if(!await UI.confirm(t('Are you absolutely sure? This cannot be undone.')))return;await DB.wipe();if(Sync.user)localStorage.removeItem('kh-pull-'+Sync.user.uid);seed();bus.emit();UI.toast(t('Deleted'))};
 
 /* ---------- About ---------- */
-V.about=()=>({title:t('About Application'),html:`<div class="hero" style="text-align:center"><div style="font-size:54px">🐄🌾</div><div class="big" style="font-size:28px">খামার ম্যানেজিং</div><small>Khamar Managing · v1.0</small></div>
+V.about=()=>({title:t('About Application'),html:`<div class="hero" style="text-align:center"><div style="font-size:54px">🐄🌾</div><div class="big" style="font-size:28px">আমার খামার</div><small>Amar Khamar · v1.0</small></div>
  ${card(t('What it does'),`<p>${t('A complete farm management app: animals and birds, dairy and breeding, milk and egg records, vaccination, disease information, feed inventory, daily routines, income and expenses, charts, calendar, notes, documents, Google backup and offline use.')}</p>`)}
  ${card(t('Important notes'),`<ul style="padding-left:18px;margin:0"><li>${t('Vaccination schedules and disease information are educational guidance, not a diagnosis or prescription. Always consult a qualified veterinarian.')}</li><li>${t('Delivery dates are estimates based on typical gestation periods.')}</li><li>${t('Your data is saved on this device first and works offline. Sign in with Google to back it up and sync.')}</li></ul>`)}
  ${card(t('Sponsor area'),`<div id="adslot-about" class="adslot" hidden data-slot="about"></div><small class="mut">${t('Reserved for future company-sponsored promotions. Nothing is shown until an administrator enables it.')}</small>`)}`});
