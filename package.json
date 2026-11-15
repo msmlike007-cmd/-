@@ -1,0 +1,15 @@
+{
+  "name": "khamar-managing",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rm -rf www && mkdir www && cp -r index.html style.css config.js sw.js manifest.webmanifest js icons www/"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2"
+  }
+}
