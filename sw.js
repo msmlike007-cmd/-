@@ -1,0 +1,8 @@
+const V='khamar-v1',SHELL=['./','index.html','style.css','config.js','js/i18n.js','manifest.webmanifest','js/data.js','js/core.js','js/charts.js','js/views1.js','js/views2.js','js/views3.js','js/app.js','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);
+ if(u.hostname.endsWith('googleapis.com')&&!u.hostname.startsWith('fonts'))return;if(u.hostname.includes('firebaseio')||u.hostname.includes('identitytoolkit')||u.hostname.includes('firestore')||u.hostname.includes('securetoken'))return;
+ const same=u.origin===location.origin,cdn=/gstatic\.com|fonts\.googleapis\.com/.test(u.hostname);if(!same&&!cdn)return;
+ e.respondWith(caches.match(r,{ignoreSearch:same}).then(hit=>{const net=fetch(r).then(res=>{if(res&&(res.ok||res.type==='opaque')){const cp=res.clone();caches.open(V).then(c=>c.put(r,cp))}return res}).catch(()=>hit||(r.mode==='navigate'?caches.match('index.html'):undefined));return hit&&same?(net.catch(()=>{}),hit):net}))});
+self.addEventListener('notificationclick',e=>{e.notification.close();const link=e.notification.data||'#/home';e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>{const c=cs[0];if(c){c.focus();return c.navigate(self.registration.scope+'index.html'+link).catch(()=>{})}return self.clients.openWindow(self.registration.scope+'index.html'+link)}))});
